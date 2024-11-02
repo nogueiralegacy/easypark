@@ -1,0 +1,40 @@
+@startuml
+
+skinparam package<<Layout>> {
+  borderColor Transparent
+  backgroundColor Transparent
+  fontColor Transparent
+  stereotypeFontColor Transparent
+}
+
+rectangle "Escopo" as escopo {
+    node "Sensor de Presença" as sensorPresenca #Grey
+    node "Câmera" as camera #Grey
+
+    node "Controlador" as controlador #LightGreen
+    camera ..> controlador
+    node "Detector" as detector #LightGreen
+    sensorPresenca ..> detector
+
+    rectangle "Interfaces com o Usuário" as interface {
+      node "Mobile" as mobile #Red
+      node "Totens de Pagamento" as totens 
+      node "Indicador Luminoso" as indicadorLuminoso
+    }
+    controlador <..> interface
+    detector -[hidden]right-> interface
+    detector ..> interface
+    mobile .[hidden]right. indicadorLuminoso
+    indicadorLuminoso.[hidden]right. totens
+}
+
+node "Estacionamento" as estacionamento #LightGoldenRodYellow {
+  package p1 <<Layout>>
+}
+estacionamento <.down.> escopo
+
+node "Serviço de Pagamento" as sp #LightCoral
+totens <.. sp
+mobile <.. sp
+
+@enduml

@@ -18,14 +18,17 @@ rectangle "Escopo" as escopo {
 
     rectangle "Interfaces com o Usuário" as interface {
       node "Mobile" as mobile #Red
-      node "Totens de Pagamento" as totens 
       node "Indicador Luminoso" as indicadorLuminoso
     }
-    controlador <..> interface
+
+    node "Servidor" as servidor #LightBlue
+    controlador ..> servidor
+    detector ..> servidor
+
+    servidor .down.> interface
+
     detector -[hidden]right-> interface
-    detector ..> interface
     mobile .[hidden]right. indicadorLuminoso
-    indicadorLuminoso.[hidden]right. totens
 }
 
 node "Estacionamento" as estacionamento #LightGoldenRodYellow {
@@ -34,7 +37,6 @@ node "Estacionamento" as estacionamento #LightGoldenRodYellow {
 estacionamento <.down.> escopo
 
 node "Serviço de Pagamento" as sp #LightCoral
-totens <.. sp
-mobile <.. sp
+servidor <.. sp
 
 @enduml

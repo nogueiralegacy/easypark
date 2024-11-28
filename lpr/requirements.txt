@@ -1,0 +1,4 @@
+opencv-python==4.10
+kafka-python==2.0.2
+pytesseract==0.3.13
+numpy==2.1.3

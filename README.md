@@ -1,5 +1,5 @@
 # EasyPark
-## Escopo
+### Escopo
 Serviço para estacionamentos inteligentes, tanto o serviço de detecção de 
 vagas quanto o serviço de gerenciamento de entrada e saída de veículos de 
 forma totalmente autônoma. 
@@ -40,6 +40,9 @@ Inclui:
 
 ### Visão de Sistemas
 ![Visão de Sistemas](imagens/Visão%20de%20Sistemas.drawio.png)
+
+### Visão em Camadas
+![Visão de Sistemas](imagens/visao-em-camadas.png)
 
 ### Caso de uso: Entrada de um veículo
 O cliente Paulo está prestes a entrar no estacionamento da loja INF. Paulo para o carro ao lado da cancela eletrônica que realiza uma série de operações antes de liberar a entrada de Paulo e seu veículo. Essas operações incluem capturar a placa do veículo de Paulo, por meio de uma câmera, registrar o valor da placa, o horário de entrada e o número de série do ticket, em uma base centralizada do estacionamento, imprimir o ticket, e, posteriormente, abrir a cancela (liberar a entrada). 

@@ -15,6 +15,26 @@ Inclui:
 4. Serviço de gerenciamento autônomo da entrada e saída de veículos.
 5. Serviço de indicadores autônomos de vagas disponíveis.    
 
+### Identificação dos Stakeholders e suas Perspectivas
+- Proprietário do Estacionamento: 
+    - Interesse em reduzir custos de instalação e operação.
+    - Decisões arquiteturais: utilização de tecnologias escaláveis e modulares, como servidores centralizados e sensores eficientes.
+
+- Usuários (Motoristas):
+    - Necessidade de confiabilidade e facilidade de uso.
+    - Decisões arquiteturais: desenvolvimento de um aplicativo mobile intuitivo e indicadores visuais de vagas disponíveis.
+- Fornecedores de Tecnologia
+    - Demandam integração de hardware e software com APIs padronizadas.
+    - Decisões arquiteturais: adoção de protocolos de comunicação universal, para suportar dispositivos heterogêneos.
+
+### Aspectos e Preocupações
+- Escalabilidade
+- Segurança
+- Interoperabilidade
+- Experiência do Usuário
+- Sustentabilidade
+
+
 ### Modelo conceitual 
 ![escopo-conceitual](imagens/escopo-conceitual.png)
 

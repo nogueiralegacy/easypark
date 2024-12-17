@@ -26,6 +26,7 @@ def criar_topicos():
 
 
 # Validação simples da mensagem --> todo: LUCAO PASSAR ESSE AQUI PRO CODIGO DA CAMERA
+# LUCAS: FEITO o7
 def validar_formato_padrao_placa(placa):
     # Simples validação: Verifica se é uma string com 7 caracteres (formato padrão ABC1234)
     if isinstance(placa, str) and len(placa) == 7 and placa[:3].isalpha() and placa[3:].isdigit():

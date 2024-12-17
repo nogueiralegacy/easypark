@@ -1,8 +1,9 @@
 from kafka import KafkaProducer
 import json
+import time
 
 HOST_URL = 'localhost:9092'
-TOPIC = 'placas'
+TOPIC = 'placas-lidas'
 
 def json_serializer(data):
     return json.dumps(data).encode("utf-8")
@@ -14,9 +15,9 @@ def send_message(plate):
     )
     
     data = {
-        "placa" : plate
+        "placa" : plate,
+        "timestamp": time.time()
     }
     producer.send(TOPIC, data)
     producer.flush()
     
-send_message('ABC1234')

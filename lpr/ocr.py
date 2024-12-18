@@ -40,6 +40,6 @@ def process_plate(image):
     return None
 
 def validate_plate(plate):
-    if isinstance(plate, str) and len(plate) == 7 and plate[:3].isalpha() and plate[3:].isdigit():
+    if isinstance(plate, str) and len(plate) == 7 and plate[:3].isalpha() and plate[3].isdigit() and plate[2:].isdigit():
         return True
     return False

@@ -5,6 +5,7 @@ from sqlalchemy_serializer import SerializerMixin
 
 class UsuarioModel(Base, SerializerMixin):
     __tablename__ = 'usuario'
+    __table_args__ = {'schema': 'easypark'}
 
     id_usuario = Column('id_usuario', Integer, primary_key=True, autoincrement=True)
     username = Column('username', String, nullable=False)

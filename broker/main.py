@@ -4,13 +4,11 @@ from kafka.errors import TopicAlreadyExistsError
 import json
 import time
 
-# Configurações
 BOOTSTRAP_SERVERS = 'localhost:9092'
 TOPIC_PLACAS_LIDAS = 'placas-lidas'
 TOPIC_PLACAS_VALIDADAS = 'placas-validadas'
 
 
-# Função para criar tópicos
 def criar_topicos():
     admin_client = KafkaAdminClient(bootstrap_servers=BOOTSTRAP_SERVERS)
     topics = [NewTopic(name=TOPIC_PLACAS_LIDAS, num_partitions=1, replication_factor=1),
@@ -42,6 +40,12 @@ def validar_placa_cadastrada(placa):
 def libera_abertura_cancela():
     print("Simulando abertura da cancela do estacionamento")
     time.sleep(5)
+
+
+# Necessário passar a mensagem pra saber de qual sensor veio (hash)
+def registrar_banco_dados(mensagem):
+    print("Registrando entrada/saída no banco de dados")
+
 
 # Configura o Producer
 def criar_producer():
@@ -82,6 +86,9 @@ def consumir_e_validar():
 
             # Simula abertura da cancela do estacionamento, possível integração com o sistema do estabelecimento
             libera_abertura_cancela()
+
+            # Registra entrada/saída no banco de dados
+            registrar_banco_dados(mensagem)
         else:
             print(f"Placa inválida: {mensagem['placa']}")
 

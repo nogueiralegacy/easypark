@@ -14,3 +14,18 @@ class LoginBody(BaseModel):
 
 class Logout(BaseModel):
     token: str
+
+
+class CarroBody(BaseModel):
+    placa: str
+    id_dono: int
+    marca: str
+    modelo: str
+    cor: str
+    cidade: str
+    sigla_estado: str
+
+
+class PlacaBody(BaseModel):
+    placa: str
+    hash_sensor: str

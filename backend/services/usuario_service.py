@@ -8,9 +8,8 @@ from jose import jwt, JWTError
 from email_validator import EmailNotValidError, validate_email
 from datetime import datetime, timedelta
 from fastapi.responses import JSONResponse
-
-from models.usuario_model import UsuarioModel
-from schemas.usuario_body import UsuarioBody
+from models.models import UsuarioModel
+from schemas.schemas_body import UsuarioBody
 
 SECRET_KEY = config('SECRET_KEY')
 ALGORITHM = config('ALGORITHM')

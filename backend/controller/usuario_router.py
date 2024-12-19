@@ -2,8 +2,8 @@ from fastapi import APIRouter, Depends, status
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 
-from database.depends import get_db_session, token_verifier
-from schemas.usuario_body import UsuarioBody, LoginBody, Logout
+from database.depends import get_db_session
+from schemas.schemas_body import UsuarioBody, LoginBody, Logout
 from services.usuario_service import UsuarioService
 
 db_session: Session = Depends(get_db_session)

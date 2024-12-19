@@ -15,8 +15,9 @@ def send_message(plate):
     )
     
     data = {
-        "placa" : plate,
-        "timestamp": time.time()
+        "placa": plate,
+        "timestamp": time.time(),
+        "hash_sensor": "mockHash_7070"
     }
     producer.send(TOPIC, data)
     producer.flush()

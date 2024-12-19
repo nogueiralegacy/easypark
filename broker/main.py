@@ -3,6 +3,7 @@ from kafka.admin import NewTopic
 from kafka.errors import TopicAlreadyExistsError
 import json
 import time
+import requests
 
 BOOTSTRAP_SERVERS = 'localhost:9092'
 TOPIC_PLACAS_LIDAS = 'placas-lidas'
@@ -33,8 +34,23 @@ def validar_formato_padrao_placa(placa):
 
 
 # Chamar a rota pra checar se a placa é válida
-def validar_placa_cadastrada(placa):
-    return True
+def validar_placa_cadastrada(mensagem):
+    print("Validando se a placa está cadastrada")
+    url = "http://realbetis.software:8000/placa/verificar"
+    body = {
+        "placa": mensagem['placa'],
+        "hash_sensor": mensagem['hash_sensor'],
+    }
+
+    response = requests.post(url, json=body)
+    if response.status_code == 200:
+        response_data = response.json()
+        if response_data.get("status"):
+            print("Mensagem:", response_data.get("msg"))
+            return True
+        else:
+            print("Deu ruim, reprovamo")
+            return False
 
 
 def libera_abertura_cancela():
@@ -45,7 +61,20 @@ def libera_abertura_cancela():
 # Necessário passar a mensagem pra saber de qual sensor veio (hash)
 def registrar_banco_dados(mensagem):
     print("Registrando entrada/saída no banco de dados")
+    url = "http://realbetis.software:8000/registro/registrar"
+    body = {
+        "placa": mensagem['placa'],
+        "hash_sensor": mensagem['hash_sensor'],
+    }
 
+    response = requests.post(url, json=body)
+    if response.status_code == 200:
+        response_data = response.json()
+        msg = response_data.get("msg")
+        if 'realizado com sucesso' in msg:
+            print("Registro realizado com sucesso!")
+    else:
+        print("Deu ruim, reprovamo")
 
 # Configura o Producer
 def criar_producer():
@@ -76,8 +105,7 @@ def consumir_e_validar():
         mensagem = mensagem.value
         print(f"Mensagem recebida: {mensagem}")
 
-        # Validação da placa
-        if validar_formato_padrao_placa(mensagem['placa']) and validar_placa_cadastrada(mensagem['placa']):
+        if validar_placa_cadastrada(mensagem):
             print(f"Placa válida e cadastrada: {mensagem['placa']}")
 
             # Enviar a mesma mensagem para o tópico placas-validadas

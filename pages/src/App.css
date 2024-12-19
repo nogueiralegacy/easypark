@@ -1,0 +1,140 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  margin-top: 30px;
+  margin-bottom: 5vh; /* Baseado na viewport */
+}
+
+.Github-logo {
+  padding: 8px;
+  max-width: 30px;
+  max-height: 30px;
+  vertical-align:middle;
+}
+
+.Slides-logo {
+  padding: 8px;
+  max-width: 40px;
+  max-height: 38px;
+  vertical-align:middle;
+}
+
+.Github-link {
+
+}
+
+.Header {
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #3A5E72;
+  padding: 10px 20px;
+}
+
+.Footer {
+  background-color: #3A5E72;
+  padding: 10px 20px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  margin: 20px;
+  color: #61dafb;
+}
+
+.Diff-lines {
+  background-color: gray;
+}
+
+.Participantes {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 20px;
+  max-width: 400px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.125);
+  transition: transform 0.3s ease;
+}
+
+.Participantes:hover {
+  transform: scale(1.02);
+}
+
+.Participantes-Titulo {
+  color: #61dafb;
+  font-weight: bold;
+  margin-bottom: 15px;
+  font-size: 1.2em;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.Participantes-Lista {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.Participantes-Item {
+  background-color: rgba(58, 94, 114, 0.5);
+  padding: 10px;
+  border-radius: 8px;
+  color: white;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.Participantes-Item:hover {
+  background-color: #3A5E72;
+}
+.Links-Container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin: 20px 0 50px 0; /* Adicionado margin-bottom maior */
+}
+
+.Link-Box {
+  background-color: #3A5E72;
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.Link-Box:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+.Link-Box img {
+  margin-right: 10px;
+  max-width: 30px;
+  max-height: 30px;
+}

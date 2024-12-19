@@ -10,6 +10,8 @@ COPY requirements.txt .
 # Instala as dependências
 RUN pip install --no-cache-dir -r requirements.txt
 
+RUN pip install pytz
+
 # Copia o código da aplicação para o diretório de trabalho
 COPY . .
 

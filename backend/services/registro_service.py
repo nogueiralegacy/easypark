@@ -138,7 +138,7 @@ class RegistroService:
                 'msg': 'Sessao ativa no estacionamento',
                 'dados_sessao': {
                     'horario_entrada': registro_entrado.data_hora,
-                    'tempo_sessao_ativa': tempo_permanencia.total_seconds() // 3600,
+                    'tempo_sessao_ativa_em_minutos': tempo_permanencia.total_seconds() // 60,
                     'carro': carro
                 }
             }

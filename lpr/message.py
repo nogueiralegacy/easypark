@@ -5,8 +5,10 @@ import time
 HOST_URL = 'localhost:9092'
 TOPIC = 'placas-lidas'
 
+
 def json_serializer(data):
     return json.dumps(data).encode("utf-8")
+
 
 def send_message(plate):
     producer = KafkaProducer(

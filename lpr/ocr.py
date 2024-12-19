@@ -31,8 +31,9 @@ def process_plate(image):
         plate = (pytesseract.image_to_string(roi, config=custom_config))
         pattern = re.compile('[\W_]+')
         plate = pattern.sub('', plate)
-        
-        if(validate_plate(plate)):
+
+        print(f"LEITURA: {plate}")
+        if validate_plate(plate):
             return plate    
         
         return None
@@ -40,6 +41,6 @@ def process_plate(image):
     return None
 
 def validate_plate(plate):
-    if isinstance(plate, str) and len(plate) == 7 and plate[:3].isalpha() and plate[3].isdigit() and plate[2:].isdigit():
+    if isinstance(plate, str) and len(plate) == 7 and plate[:3].isalpha() and plate[3:].isdigit():
         return True
     return False

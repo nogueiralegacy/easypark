@@ -34,6 +34,13 @@ Inclui:
 - Experiência do Usuário
 - Sustentabilidade
 
+### Equipe
+- Daniel Nogueira
+- Felipe Moreira
+- Lucas Bernardes
+- Matheus Geraldino
+
+[Página da equiepe e projeto](http://realbetis.software/) 
 
 ### Modelo conceitual 
 ![escopo-conceitual](imagens/escopo-conceitual.png)

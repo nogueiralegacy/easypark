@@ -1,6 +1,6 @@
 from kafka import KafkaProducer, KafkaConsumer, KafkaAdminClient
 from kafka.admin import NewTopic
-from kafka.errors import TopicAlreadyExistsError
+from kafka.errors import TopicAlreadyExistsError, UnknownTopicOrPartitionError
 import json
 import time
 import requests
@@ -16,6 +16,13 @@ def criar_topicos():
               NewTopic(name=TOPIC_PLACAS_VALIDADAS, num_partitions=1, replication_factor=1)]
 
     try:
+        admin_client.delete_topics(topics=['placas-lidas', 'placas-validadas'])
+        print(f"Tópicos '{TOPIC_PLACAS_LIDAS}' e '{TOPIC_PLACAS_VALIDADAS}' foram excluídos.")
+        time.sleep(5)
+    except UnknownTopicOrPartitionError:
+        print("Tópicos não existiam para exclusão. Continuando...")
+
+    try:
         admin_client.create_topics(new_topics=topics, validate_only=False)
         print(f"Tópicos '{TOPIC_PLACAS_LIDAS}' e '{TOPIC_PLACAS_VALIDADAS}' criados com sucesso.")
     except TopicAlreadyExistsError:
@@ -24,8 +31,7 @@ def criar_topicos():
         admin_client.close()
 
 
-# Validação simples da mensagem --> todo: LUCAO PASSAR ESSE AQUI PRO CODIGO DA CAMERA
-# LUCAS: FEITO o7
+# Validação simples da mensagem
 def validar_formato_padrao_placa(placa):
     # Simples validação: Verifica se é uma string com 7 caracteres (formato padrão ABC1234)
     if isinstance(placa, str) and len(placa) == 7 and placa[:3].isalpha() and placa[3:].isdigit():
@@ -46,7 +52,7 @@ def validar_placa_cadastrada(mensagem):
     if response.status_code == 200:
         response_data = response.json()
         if response_data.get("status"):
-            print("Mensagem:", response_data.get("msg"))
+            print("Sucesso! Mensagem:", response_data.get("msg"))
             return True
         else:
             print("Deu ruim, reprovamo")
@@ -54,7 +60,7 @@ def validar_placa_cadastrada(mensagem):
 
 
 def libera_abertura_cancela():
-    print("Simulando abertura da cancela do estacionamento")
+    print("Simulando abertura da cancela do estacionamento (5s)")
     time.sleep(5)
 
 
@@ -68,7 +74,7 @@ def registrar_banco_dados(mensagem):
     }
 
     response = requests.post(url, json=body)
-    if response.status_code == 200:
+    if response.status_code == 201:
         response_data = response.json()
         msg = response_data.get("msg")
         if 'realizado com sucesso' in msg:
@@ -76,7 +82,7 @@ def registrar_banco_dados(mensagem):
     else:
         print("Deu ruim, reprovamo")
 
-# Configura o Producer
+
 def criar_producer():
     return KafkaProducer(
         bootstrap_servers=BOOTSTRAP_SERVERS,
@@ -84,13 +90,13 @@ def criar_producer():
     )
 
 
-# Configura o Consumer
 def criar_consumer():
     return KafkaConsumer(
         TOPIC_PLACAS_LIDAS,
         bootstrap_servers=BOOTSTRAP_SERVERS,
         group_id="placas-lidas-consumer",
-        auto_offset_reset='earliest',
+        enable_auto_commit=False,
+        auto_offset_reset='latest',
         value_deserializer=lambda x: json.loads(x.decode('utf-8'))
     )
 
@@ -102,26 +108,33 @@ def consumir_e_validar():
 
     print("Consumindo mensagens do tópico 'placas-lidas'...")
     for mensagem in consumer:
+        print("------ INICIOU EXECUÇÃO ------")
         mensagem = mensagem.value
         print(f"Mensagem recebida: {mensagem}")
 
-        if validar_placa_cadastrada(mensagem):
-            print(f"Placa válida e cadastrada: {mensagem['placa']}")
+        if validar_formato_padrao_placa(mensagem['placa']):
+            if validar_placa_cadastrada(mensagem):
+                print(f"Placa válida e cadastrada no sistema: {mensagem['placa']}")
 
-            # Enviar a mesma mensagem para o tópico placas-validadas
-            producer.send(TOPIC_PLACAS_VALIDADAS, mensagem)
-            print(f"Mensagem enviada para '{TOPIC_PLACAS_VALIDADAS}': {mensagem}")
+                # Enviar a mesma mensagem para o tópico placas-validadas
+                producer.send(TOPIC_PLACAS_VALIDADAS, mensagem)
+                print(f"Mensagem enviada para '{TOPIC_PLACAS_VALIDADAS}': {mensagem}")
 
-            # Simula abertura da cancela do estacionamento, possível integração com o sistema do estabelecimento
-            libera_abertura_cancela()
+                # Simula abertura da cancela do estacionamento, possível integração com o sistema do estabelecimento
+                libera_abertura_cancela()
 
-            # Registra entrada/saída no banco de dados
-            registrar_banco_dados(mensagem)
+                # Registra entrada/saída no banco de dados
+                registrar_banco_dados(mensagem)
+            else:
+                print("O formato da placa é valido, porém ela não está cadastrada!")
         else:
             print(f"Placa inválida: {mensagem['placa']}")
 
+        consumer.commit()  # Confirma que a mensagem foi consumida ("andando com o ponteiro")
+
         # Simula processamento constante
-        time.sleep(1)
+        print("------ FINALIZOU EXECUÇÃO ------")
+        time.sleep(15)
 
 
 # Função principal

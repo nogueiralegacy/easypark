@@ -34,6 +34,21 @@ Inclui:
 - Experiência do Usuário
 - Sustentabilidade
 
+### Estrutura do projeto
+O sistema está dividido nas seguintes pastas:
+
+- backend: API desenvolvida em Python com FastAPI.
+- frontend: Flutter
+- broker: Processa mensagens brutas, realiza validações e redireciona para novos tópicos Kafka.
+- lpr: Software embarcado da câmera para reconhecimento de placas (OCR).
+- sensor-presenca: Código embarcado para o sensor de presença
+
+### Execução e dependências
+
+-  backend: uvicorn, fastapi, instalação de dependências com: `pip install -r requirements.txt` e execução via terminal com `uvicorn main:app`
+-  broker: instalação e execução do kafta localmente e execução da `main` com o Python.
+-  lpr: necessário utilização do [tesseract](https://github.com/tesseract-ocr/tesseract) e execução da `main`
+
 ### Equipe
 - Daniel Nogueira
 - Felipe Moreira
